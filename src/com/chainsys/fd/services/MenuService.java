@@ -57,12 +57,12 @@ public class MenuService extends HttpServlet {
 
 			if (!restaurantName.isEmpty()) {
 
-				request.setAttribute("RESTAURANTNAME", restaurantName);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+				request.setAttribute("RESTAURANT", restaurantName);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("Search.jsp");
 				dispatcher.forward(request, response);
 
 				for (Restaurant temp : restaurantName) {
-					System.out.println(temp.getRestaurantName());
+					System.out.println("new"+temp.getRestaurantName());
 				}
 			} else {
 

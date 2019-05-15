@@ -61,11 +61,12 @@ public class SearchDAO {
 		ArrayList<Menu> menuName = new ArrayList<>();
 		if (categoryId == 4) {
 			try {
-				String sql = "select menu_name,price from trn_menu where category_id=1 or category_id=2";
+				String sql = "select menu_id,menu_name,price from trn_menu where category_id=1 or category_id=2";
 				preparedStatement = connection.prepareStatement(sql);
 				resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					Menu menu = new Menu();
+					menu.setMenuId(resultSet.getInt("menu_id"));
 					menu.setName(resultSet.getString("menu_name"));
 					menu.setPrice(resultSet.getLong("price"));
 					menuName.add(menu);
@@ -79,12 +80,13 @@ public class SearchDAO {
 
 		} else {
 			try {
-				String sql = "select menu_name,price from trn_menu where category_id=? ";
+				String sql = "select menu_id,menu_name,price from trn_menu where category_id=? ";
 				preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setInt(1, categoryId);
 				resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					Menu menu = new Menu();
+					menu.setMenuId(resultSet.getInt("menu_id"));
 					menu.setName(resultSet.getString("menu_name"));
 					menu.setPrice(resultSet.getLong("price"));
 					menuName.add(menu);

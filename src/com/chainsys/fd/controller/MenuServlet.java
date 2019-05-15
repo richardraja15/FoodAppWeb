@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.chainsys.fd.dao.MenuDAO;
 import com.chainsys.fd.dao.SearchDAO;
 import com.chainsys.fd.model.Menu;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Servlet implementation class MenuServlet
@@ -46,12 +48,17 @@ public class MenuServlet extends HttpServlet {
 			
 
 				request.setAttribute("MENUITEMS", menuItems);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-				dispatcher.forward(request, response);
+				Gson gson=new GsonBuilder().setPrettyPrinting().create();
+				String menuList=gson.toJson(menuItems);
+				response.getWriter().write(menuList);
+				
+//				RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+//				dispatcher.forward(request, response);
 				for (Menu temp : menuItems) {
-					System.out.println(temp.getName());
-				}
-					} catch (Exception e) {
+					System.out.println(temp.getCategory().getCategoryId());
+		}
+		
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

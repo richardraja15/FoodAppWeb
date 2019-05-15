@@ -14,6 +14,8 @@ import com.chainsys.fd.dao.MenuDAO;
 import com.chainsys.fd.dao.RestaurantDAO;
 import com.chainsys.fd.model.Menu;
 import com.chainsys.fd.model.Restaurant;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Servlet implementation class RestaurantServlet
@@ -41,13 +43,15 @@ public class RestaurantServlet extends HttpServlet {
 		ArrayList<Restaurant> restaurants = new ArrayList<>();
 		try {
 			restaurants= restaurantDAO.getRestaurant();
-
 			request.setAttribute("RESTAURANTS", restaurants);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-			dispatcher.forward(request, response);
-			for (Restaurant temp : restaurants) {
+			Gson gson=new GsonBuilder().setPrettyPrinting().create();
+			String restaurantList=gson.toJson(restaurants);
+			response.getWriter().write(restaurantList);
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+//			dispatcher.forward(request, response);
+			/*for (Restaurant temp : restaurants) {
 				System.out.println(temp.getRestaurantName());
-			}
+			}*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

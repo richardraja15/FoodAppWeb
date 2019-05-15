@@ -76,9 +76,9 @@ public class FindServlet extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("Search.jsp");
 				dispatcher.forward(request, response);
 
-				for (Restaurant temp : restaurantName) {
+				/*for (Restaurant temp : restaurantName) {
 					System.out.println(temp.getCategory().getCategoryId());
-				}
+				}*/
 			} else {
 
 				PrintWriter out = response.getWriter();

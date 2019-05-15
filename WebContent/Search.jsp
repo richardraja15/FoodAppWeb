@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +43,7 @@
 					<td>${rest.address}</td>
 					<td>${rest.city.cityName}</td>
 					<td>${rest.category.categoryName}</td>
-					<td><button type="Submit" value="${rest.category.categoryId}" name="categoryId">View</button></td>
+					<td><button type="Submit" value="${rest.restaurantId}" name="restaurantId">View</button></td>
 					
 				</tr>
 			</c:forEach>
@@ -50,7 +51,8 @@
 		</tbody>
 
 	</table>
-<a href="index.jsp">HOME</a>
+<!-- <a href="index.jsp">HOME</a> -->
 </form>
 </body>
 </html>
+<%@ include file="footer.jsp"%>
