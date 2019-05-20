@@ -6,8 +6,7 @@ public class Restaurant {
 	private long phoneNumber;
 	private String address;
 	private City city;
-	private Category category;
-	
+	private Category category;	
 	public String getRestaurantName() {
 		return restaurantName;
 	}

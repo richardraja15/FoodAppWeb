@@ -1,7 +1,6 @@
 package com.chainsys.fd.model;
 
 public class Category {
-
 	private int categoryId;
 	private String categoryName;
 	public int getCategoryId() {
@@ -16,5 +15,4 @@ public class Category {
 	public void setCategoryName(String name) {
 		this.categoryName = name;
 	}
-
 }

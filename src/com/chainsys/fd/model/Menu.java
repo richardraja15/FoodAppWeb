@@ -5,6 +5,14 @@ public class Menu {
 	private String name;
 	private double price;
 	private Category category;
+	private int quantity;
+	private String image;
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	public int getMenuId() {
 		return menuId;
 	}
@@ -28,5 +36,11 @@ public class Menu {
 	}
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

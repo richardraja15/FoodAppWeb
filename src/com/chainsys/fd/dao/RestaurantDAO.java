@@ -11,35 +11,18 @@ import com.chainsys.fd.util.ConnectionUtil;
 
 public class RestaurantDAO {
 
-	public int getUserCity() throws Exception {
-		Connection connection = ConnectionUtil.getConnection();
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-		int id = 0;
-		try {
-			String sql = "select city_id from users where user_id=1";
-			resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				id = resultSet.getInt("emp_id");
-			}
-		} catch (Exception e) {
-			throw new Exception("unable to get id");
-		} finally {
-			ConnectionUtil.close(connection, preparedStatement, resultSet);
-		}
-		return id;
-
-	}
-
+	/**
+	 * This method is used to get all restaurants.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<Restaurant> getRestaurant() throws Exception {
 		Connection connection = ConnectionUtil.getConnection();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		ArrayList<Restaurant> restaurants = new ArrayList<>();
-
 		try {
-			// String sql = "select restaurant_name from restaurant where restaurant_name
-			// LIKE ?";
 			String sql = "SELECT r.restaurant_id as restid, r.restaurant_name as restname,ct.category_id as categoryid FROM restaurant  r INNER JOIN category ct  ON r.category_id = ct.category_id";
 			preparedStatement = connection.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
@@ -50,8 +33,6 @@ public class RestaurantDAO {
 				Category category = new Category();
 				category.setCategoryId(resultSet.getInt("categoryid"));
 				restaurant.setCategory(category);
-
-				// System.out.println("name"+name);
 				restaurants.add(restaurant);
 			}
 		} catch (Exception e) {
@@ -60,10 +41,16 @@ public class RestaurantDAO {
 			ConnectionUtil.close(connection, preparedStatement, resultSet);
 		}
 		return restaurants;
-
 	}
 
-	public int getCategoryByRestaurant(int id) throws Exception {
+	/**
+	 * This method is used to get categoryId using restaurantId
+	 * 
+	 * @param restaurantId
+	 * @return
+	 * @throws Exception
+	 */
+	public int getCategoryByRestaurant(int restaurantId) throws Exception {
 		Connection connection = ConnectionUtil.getConnection();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -71,19 +58,47 @@ public class RestaurantDAO {
 		try {
 			String sql = "select category_id from restaurant where restaurant_id=?";
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(1, restaurantId);
 			resultSet = preparedStatement.executeQuery();
-
 			if (resultSet.next()) {
 				categoryId = resultSet.getInt("category_id");
 			}
 		} catch (Exception e) {
-			throw new Exception("unable to get id");
+			e.printStackTrace();
 		} finally {
 			ConnectionUtil.close(connection, preparedStatement, resultSet);
 		}
-
 		return categoryId;
 	}
 
+	/**
+	 * This method is used to get restaurant details for specific restaurantId.
+	 * 
+	 * @param restaurantId
+	 * @return
+	 * @throws Exception
+	 */
+	public Restaurant getRestaurantById(int restaurantId) throws Exception {
+
+		Connection connection = ConnectionUtil.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		Restaurant restaurant = null;
+		try {
+			String sql = "select restaurant_name from restaurant where restaurant_id=?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, restaurantId);
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				restaurant = new Restaurant();
+				restaurant.setRestaurantName(resultSet.getString("restaurant_name"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionUtil.close(connection, preparedStatement, resultSet);
+		}
+		return restaurant;
+	}
 }

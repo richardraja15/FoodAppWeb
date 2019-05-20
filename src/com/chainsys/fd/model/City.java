@@ -4,7 +4,6 @@ public class City {
 	private  int cityId;
 	private String cityName;
 	private int pincode;
-	
 	public int getCityId() {
 		return cityId;
 	}
