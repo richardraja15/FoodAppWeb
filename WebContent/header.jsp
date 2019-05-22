@@ -24,6 +24,12 @@
 <!-- Core Stylesheet -->
 <link rel="stylesheet" href="style.css">
 <style>
+.cont-cen {
+	position: absolute;
+    top: 0%;
+    left: 30%;
+}
+
 .btn-btn {
 	border: none;
 	outline: none;
@@ -65,7 +71,7 @@
 				<div class="col-12">
 					<form action="FindServlet" method="post">
 						<input type="search" name="search"
-							placeholder="Type any keywords..." required="required">
+							placeholder="Type any keywords..." required="required"  pattern="[A-Za-z]">
 						<button type="submit">
 							<i class="fa fa-search" aria-hidden="true"></i>
 						</button>

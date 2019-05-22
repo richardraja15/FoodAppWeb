@@ -577,7 +577,7 @@ textarea:focus {
         position: relative;
         width: 100%;
         z-index: 100;
-        height: 145px;
+        /*height: 145px;*/
         @media #{$breakpoint-xs} {
             height: 80px;
         }

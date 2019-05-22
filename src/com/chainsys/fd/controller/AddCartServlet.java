@@ -1,6 +1,7 @@
 package com.chainsys.fd.controller;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,14 @@ import com.google.gson.GsonBuilder;
 @WebServlet("/AddCartServlet")
 public class AddCartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -40,10 +49,10 @@ public class AddCartServlet extends HttpServlet {
 		int restaurantId = (int) httpSession.getAttribute("RESTAURANTID");
 		RestaurantService restaurantService = new RestaurantServiceImpl();
 		Restaurant restaurant = new Restaurant();
+		double totalAmount=0;
 		try {
 			restaurant = restaurantService.getRestaurantById(restaurantId);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		for (int i = 0; i < jsonArray.length(); i++) {
@@ -63,21 +72,28 @@ public class AddCartServlet extends HttpServlet {
 					foodList.put("quantity", String.valueOf(menu.getQuantity()));
 					double totalPrice = menu.getPrice() * menu.getQuantity();
 					foodList.put("totalPrice", String.valueOf(totalPrice));
+					totalAmount=totalAmount+totalPrice;
 					foodListWithQuantity.add(foodList);
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
+		Map<String, String> foodCharges = new HashMap<String, String>();
+		double restaurantCharges=(totalAmount * 0.06);
+		double finalAmount=(totalAmount+restaurantCharges+25);
+		foodCharges.put("totalAmount", String.valueOf(totalAmount));
+		foodCharges.put("restaurantCharges",String.valueOf(round(restaurantCharges, 2)));
+		foodCharges.put("finalAmount", String.valueOf(finalAmount));
+		List<Map<String, String>> foodListCharges = new ArrayList<>();
+		foodListCharges.add(foodCharges);
 		HttpSession session = request.getSession();
 		session.setAttribute("FOODLIST", foodListWithQuantity);
+		session.setAttribute("FOODCHARGES", foodListCharges);
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String orderList = gson.toJson(foodListWithQuantity);
 		response.getWriter().write(orderList);

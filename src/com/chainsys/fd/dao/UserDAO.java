@@ -7,17 +7,17 @@ import java.sql.ResultSet;
 import com.chainsys.fd.util.ConnectionUtil;
 
 public class UserDAO {
-	public boolean validateLogin(String userName, String password) throws Exception {
+	public boolean validateLogin(String userId, String password) throws Exception {
 		boolean isValid = false;
 		Connection connection = ConnectionUtil.getConnection();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			String sql = "select user_name,password from userlogin";
+			String sql = "select user_id,password from userlogin";
 			preparedStatement = connection.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery(sql);
 			while (resultSet.next()) {
-				if (resultSet.getString("user_name").contentEquals(userName)
+				if (resultSet.getString("user_id").contentEquals(userId)
 						&& resultSet.getString("password").contentEquals(password)) {
 					isValid = true;
 				}

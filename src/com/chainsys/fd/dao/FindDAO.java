@@ -3,8 +3,10 @@ package com.chainsys.fd.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.chainsys.fd.exception.UnableToFind;
 import com.chainsys.fd.model.Category;
 import com.chainsys.fd.model.City;
 import com.chainsys.fd.model.Restaurant;
@@ -17,9 +19,10 @@ public class FindDAO {
 	 * 
 	 * @param search
 	 * @return
+	 * @throws SQLException 
 	 * @throws Exception
 	 */
-	public ArrayList<Restaurant> getRestaurant(String search) throws Exception {
+	public ArrayList<Restaurant> getRestaurant(String search) throws UnableToFind, SQLException {
 		Connection connection = ConnectionUtil.getConnection();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -45,18 +48,10 @@ public class FindDAO {
 				restaurants.add(restaurant);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new UnableToFind("unable to find restaurants");
 		} finally {
 			ConnectionUtil.close(connection, preparedStatement, resultSet);
 		}
 		return restaurants;
 	}
-
-	/**
-	 * This method is used to get menu details using categoryId.
-	 * 
-	 * @param categoryId
-	 * @return
-	 * @throws SQLException
-	 */
 }
